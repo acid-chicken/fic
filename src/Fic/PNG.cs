@@ -1,8 +1,8 @@
 using System;
-using static System.Buffers.Binary.BinaryPrimitives;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace AcidChicken.Fic
 {
@@ -18,7 +18,7 @@ namespace AcidChicken.Fic
             {
                 Span<byte> signature = stackalloc byte[8];
                 if (stream.Read(signature) != signature.Length ||
-                    ToInt64LittleEndian(signature) != _signature)
+                    ReadInt64LittleEndian(signature) != _signature)
                     throw new BadImageFormatException("Invalid PNG signature.");
             }
             #endregion
@@ -58,7 +58,7 @@ namespace AcidChicken.Fic
                     throw new BadImageFormatException("Invalid chunk.");
 
                 int ReadInt32(Span<byte> buffer) =>
-                    ToInt32LittleEndian(Read(buffer));
+                    ReadInt32LittleEndian(Read(buffer));
 
                 var length = ReadInt32(intbuf);
 
